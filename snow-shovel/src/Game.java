@@ -14,14 +14,22 @@ public class Game extends JPanel implements ActionListener {
 
     public Game() {
         // Create a Timer that triggers an ActionEvent every 10 milliseconds
-        timer = new Timer(10, this); 
+        timer = new Timer(10, this);
         timer.start(); // Start the animation timer
         
+        Road road = new Road(screenHeight/2, 1, 48, Square.SIZE);
+        VerticalRoad verticalRoad = new VerticalRoad(screenWidth / 2, 40);
+        
         squares = new ArrayList<Square>();
-        squares.add(new Grass(0, 0));
-        squares.add(new Grass(24, 0));
-        squares.add(new Pavement(0, 24));
-        squares.add(new Pavement(0, 48));
+        for(int i = 0; i < screenWidth; i += Square.SIZE) {
+        	for(int j = 0; j < screenHeight; j += Square.SIZE) {
+        		if (road.isInRoad(i, j, Square.SIZE) || verticalRoad.isInRoad(i, j, Square.SIZE)) {
+        			squares.add(new Pavement(i, j));
+        		} else {
+        			squares.add(new Grass(i, j));
+        		}
+        	}
+        }
     }
 
     @Override
